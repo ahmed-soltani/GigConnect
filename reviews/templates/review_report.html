@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}Report Review{% endblock %}
+
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+
+      <div class="card shadow-sm">
+        <div class="card-body">
+
+          <h2 class="h4 mb-4 text-center">Report Review</h2>
+
+          <div class="alert alert-warning">
+            You are reporting the following review:
+            <blockquote class="blockquote mt-2 mb-0">
+              <p class="mb-0">“{{ review.text }}”</p>
+            </blockquote>
+          </div>
+
+          <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <div class="d-flex justify-content-between align-items-center mt-4">
+              <a href="{% url 'product_detail' review.product.id %}" class="btn btn-outline-secondary">
+                ← Back to product
+              </a>
+
+              <button type="submit" class="btn btn-danger">
+                Submit report
+              </button>
+            </div>
+          </form>
+
+        </div>
+      </div>
+
+      <div class="text-center mt-3">
+        <a href="{% url 'home' %}" class="btn btn-link">
+          Back to home
+        </a>
+      </div>
+
+    </div>
+  </div>
+{% endblock %}
+
+
+{% comment %} {% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Report Review{% endblock %}
+
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="card shadow-sm border-warning">
+        <div class="card-body">
+
+          <h2 class="h4 mb-3 text-center text-warning">
+            Report Review
+          </h2>
+
+          <p class="text-muted mb-4 text-center">
+            Please explain why you are reporting this review.
+          </p>
+
+          <form method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+
+            <button type="submit" class="btn btn-warning w-100">
+              <i class="bi bi-flag"></i>
+              Report Review
+            </button>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %} {% endcomment %}

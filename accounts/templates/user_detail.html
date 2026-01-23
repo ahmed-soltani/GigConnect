@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+
+      <div class="card shadow-sm">
+        <div class="card-body text-center">
+
+          {% if myuser.profile_picture %}
+            <img
+              src="{{ myuser.profile_picture.url }}"
+              alt="User profile picture"
+              class="rounded-circle mb-3"
+              style="width: 150px; height: 150px; object-fit: cover;"
+            >
+          {% else %}
+            <div
+              class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center mb-3"
+              style="width: 150px; height: 150px; margin: 0 auto;"
+            >
+              <i class="bi bi-person fs-1"></i>
+            </div>
+          {% endif %}
+
+          <h2 class="h4 mb-3">
+            Hello {{ myuser.username }}!
+          </h2>
+
+          <ul class="list-group list-group-flush text-start mb-4">
+            <li class="list-group-item">
+              <strong>Display name:</strong>
+              {{ myuser.username }}
+            </li>
+            <li class="list-group-item">
+              <strong>First name:</strong>
+              {{ myuser.first_name }}
+            </li>
+            <li class="list-group-item">
+              <strong>Last name:</strong>
+              {{ myuser.last_name }}
+            </li>
+            <li class="list-group-item">
+              <strong>Date of birth:</strong>
+              {{ myuser.date_of_birth }}
+            </li>
+            <li class="list-group-item">
+              <strong>Email:</strong>
+              {{ myuser.email }}
+            </li>
+          </ul>
+
+          <a href="{% url 'profile_update' %}" class="btn btn-primary w-100">
+            <i class="bi bi-pencil"></i>
+            Edit Profile
+          </a>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+{% endblock %}

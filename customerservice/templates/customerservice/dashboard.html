@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Customer Service{% endblock %}
+
+{% block content %}
+  <h2 class="mb-4">Customer Service</h2>
+
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <p class="mb-3">
+        Unresolved reported reviews: <strong>{{ reported_count }}</strong>
+      </p>
+
+      <a href="{% url 'cs_reports' %}" class="btn btn-primary">
+        View reports
+      </a>
+    </div>
+  </div>
+{% endblock %}

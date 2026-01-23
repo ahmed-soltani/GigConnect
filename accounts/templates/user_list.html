@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Users list{% endblock %}
+
+{% block content %}
+    <h2>Users list</h2>
+    <ul>
+        {% for myuser in all_myusers %}
+            {{ myuser.first_name }} {{ myuser.last_name }} ({{ myuser.date_of_birth }})<br>
+            {% if myuser.profile_picture %} <!-- need this for MySql to work -->
+                <img src="{{ myuser.profile_picture.url }}" height="150" width="150"><br>
+            {% endif %}
+            <br>
+        {% endfor %}
+    </ul>
+{% endblock %}

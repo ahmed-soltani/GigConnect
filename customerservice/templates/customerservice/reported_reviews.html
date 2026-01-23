@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Reported Reviews{% endblock %}
+
+{% block content %}
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">Reported Reviews</h2>
+    <a href="{% url 'cs_dashboard' %}" class="btn btn-outline-secondary btn-sm">
+      Back
+    </a>
+  </div>
+
+  {% if reports %}
+    <div class="list-group">
+      {% for report in reports %}
+        <div class="list-group-item">
+          <div class="d-flex justify-content-between align-items-start">
+            <div>
+              <div class="mb-1">
+                <strong>Report #{{ report.id }}</strong>
+                <span class="text-muted">• {{ report.timestamp|date:"d M Y H:i" }}</span>
+              </div>
+
+              <div class="mb-2">
+                <span class="text-muted">Reporter:</span>
+                <strong>{{ report.reporter.username }}</strong>
+              </div>
+
+              <div class="mb-2">
+                <span class="text-muted">Reason:</span>
+                <strong>{{ report.get_reason_display }}</strong>
+              </div>
+
+              <div class="mb-2">
+                <span class="text-muted">Review text:</span>
+                “{{ report.review.text }}”
+              </div>
+            </div>
+
+            <form method="post" class="ms-3">
+              {% csrf_token %}
+              <button type="submit" name="resolve" value="{{ report.id }}" class="btn btn-sm btn-outline-success">
+                Mark resolved
+              </button>
+            </form>
+          </div>
+
+          <div class="d-flex flex-wrap gap-2 mt-3">
+            <a href="{% url 'product_detail' report.review.product.id %}" class="btn btn-sm btn-outline-primary">
+              Open product
+            </a>
+
+            {% comment %} <a href="{% url 'review_report' report.review.product.id report.review.id %}" class="btn btn-sm btn-outline-secondary">
+              View report page
+            </a> {% endcomment %}
+
+            <form method="post" action="{% url 'review_delete' report.review.product.id report.review.id %}">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-sm btn-outline-danger">
+                Delete review
+              </button>
+            </form>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="alert alert-info">
+      No unresolved reports.
+    </div>
+  {% endif %}
+{% endblock %}
