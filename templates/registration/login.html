@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
+      <div class="card shadow-sm">
+        <div class="card-body">
+
+          <h2 class="h4 text-center mb-4">Login</h2>
+
+          {% if request.GET.next %}
+            <div class="alert alert-warning">
+              You must log in to access that page!
+            </div>
+          {% endif %}
+
+          <form method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button type="submit" class="btn btn-primary w-100">Login</button>
+          </form>
+
+          <hr class="my-4">
+
+          <p class="text-center mb-0">
+            New here?
+            <a href="{% url 'signup' %}">Create an account</a>
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

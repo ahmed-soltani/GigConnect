@@ -1,0 +1,120 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+
+    <a class="navbar-brand" href="{% url 'home' %}">GigConnect</a>
+
+    <button class="navbar-toggler" type="button"
+            data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+      <!-- LEFT NAV -->
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'product_list' %}">Products</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Services</a>
+        </li>
+
+        {% if user.is_authenticated %}
+          {# Profile is now the avatar on the right, so we don't show text Profile here #}
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'login' %}">Login / Sign Up</a>
+          </li>
+        {% endif %}
+
+        {% if user.is_authenticated and user.is_cs %}
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'cs_dashboard' %}">Customer Service</a>
+          </li>
+        {% endif %}
+
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">About us</a>
+        </li>
+
+      </ul>
+
+      <!-- RIGHT SIDE: search + avatar dropdown -->
+      <div class="d-flex align-items-center gap-3">
+
+        <form class="d-flex" role="search" method="get" action="{% url 'product_list' %}">
+          <input
+            class="form-control me-2"
+            type="search"
+            name="q"
+            placeholder="Search"
+            aria-label="Search"
+            value="{{ request.GET.q }}"
+          />
+
+          <select name="rating" class="form-select me-2" aria-label="Minimum product rating">
+            <option value="">Any rating</option>
+            <option value="5">★★★★★</option>
+            <option value="4">★★★★☆ & up</option>
+            <option value="3">★★★☆☆ & up</option>
+            <option value="2">★★☆☆☆ & up</option>
+            <option value="1">★☆☆☆☆ & up</option>
+          </select>
+
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+
+        {% if user.is_authenticated %}
+          <div class="dropdown">
+            <button class="btn p-0 border-0 bg-transparent dropdown-toggle"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                    style="box-shadow: none;">
+              {% if request.user.profile_picture %}
+                <img src="{{ request.user.profile_picture.url }}"
+                     alt="Profile"
+                     width="36" height="36"
+                     style="border-radius: 50%; object-fit: cover;"
+                >
+              {% else %}
+                <span class="d-inline-flex justify-content-center align-items-center"
+                      style="width:36px;height:36px;border-radius:50%;background:#e9ecef;">
+                  <i class="bi bi-person-fill"></i>
+                </span>
+              {% endif %}
+            </button>
+
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li>
+                <a class="dropdown-item" href="{% url 'profile' %}">
+                  Profile
+                </a>
+              </li>
+
+              <li><hr class="dropdown-divider"></li>
+
+              <li>
+                <form method="post" action="{% url 'logout' %}" class="px-3 py-1">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-outline-danger w-100">
+                    Logout
+                  </button>
+                </form>
+              </li>
+            </ul>
+          </div>
+        {% endif %}
+
+      </div>
+    </div>
+  </div>
+</nav>
